@@ -2,7 +2,16 @@
 final class CZCforwardCheckPrevActions extends CZBase
 {
 	/**
-	 * @param array $actions
+	 * @param array $actions(
+	 *   array(
+	 *     string Action name
+	 *     string Action group name / FALSE <option>
+	 *     string Controller name           <option>
+	 *   )
+	 *   ...
+	 * )
+	 * 
+	 * @return void / forward403
 	 * 
 	 * @author Shin Uesugi
 	 */
@@ -16,24 +25,26 @@ final class CZCforwardCheckPrevActions extends CZBase
 		$prev_action_group_name = $this->_cz->loadStatic('forward')->getPrevActionGroupName();
 		$prev_action_name       = $this->_cz->loadStatic('forward')->getPrevActionName();
 
-		if (($current_ctrl_name == $prev_ctrl_name) && ($current_action_group_name == $prev_action_group_name) && ($current_action_name == $prev_action_name)) {
+		if (($current_ctrl_name === $prev_ctrl_name) && ($current_action_group_name === $prev_action_group_name) && ($current_action_name === $prev_action_name)) {
 			return;
 		}
 		
 		$hit_flag = FALSE;
 		foreach ($actions as $action) {
-			$values = array_values($action);
-
-			$action_name = $values[0];
-			if (isset($values[1])) {
-				$action_group_name = $values[1];
+			if (isset($action[2])) {
+				$ctrl_name = $action[2];
+			} else {
+				$ctrl_name = $current_ctrl_name;
+			}
+			if (isset($action[1])) {
+				$action_group_name = $action[1] !== FALSE ? $action[1] : NULL;
 			} else {
 				$action_group_name = $current_action_group_name;
 			}
-			if (isset($values[2])) {
-				$ctrl_name = $values[2];
+			if (isset($action[0])) {
+				$action_name = $action[0];
 			} else {
-				$ctrl_name = $current_ctrl_name;
+				$this->_cz->newCore('err', 'fatal')->exec(__FILE__, __LINE__, CZ_FATAL_COMMON_NOT_EXIST_ACTION_NAME);
 			}
 			
 			if (($ctrl_name === $prev_ctrl_name) && ($action_group_name === $prev_action_group_name) && ($action_name === $prev_action_name)) {
@@ -48,42 +59,27 @@ final class CZCforwardCheckPrevActions extends CZBase
 	}
 
 	/**
-	 * @param array $actions
+	 * @param array $actions(
+	 *   array(
+	 *     string Action name
+	 *     string Controller name <option>
+	 *   )
+	 *   ...
+	 * )
+	 * 
+	 * @return void / forward403
 	 * 
 	 * @author Shin Uesugi
 	 */
 	public function exec($actions)
 	{
-		$current_ctrl_name   = $this->_cz->loadStatic('forward')->getCtrlName();
-		$current_action_name = $this->_cz->loadStatic('forward')->getActionName();
-		
-		$prev_ctrl_name   = $this->_cz->loadStatic('forward')->getPrevCtrlName();
-		$prev_action_name = $this->_cz->loadStatic('forward')->getPrevActionName();
-		
-		if (($current_ctrl_name == $prev_ctrl_name) && ($current_action_name == $prev_action_name)) {
-			return;
-		}
-		
-		$hit_flag = FALSE;
-		foreach ($actions as $action) {
-			$values = array_values($action);
-
-			$action_name = $values[0];
-			if (isset($values[1])) {
-				$ctrl_name = $values[1];
-			} else {
-				$ctrl_name = $current_ctrl_name;
+		foreach ($actions as $key => $action) {
+			if (isset($action[1])) {
+				$actions[$key][2] = $action[1];
 			}
-			
-			if (($ctrl_name === $prev_ctrl_name) && ($action_name === $prev_action_name)) {
-				$hit_flag = TRUE;
-				break;
-			}
+			$actions[$key][1] = FALSE;
 		}
-		
-		if (!$hit_flag) {
-			$this->_cz->newCore('forward', '403')->exec();
-		}
+		self::_exec($actions);
 	}
 }
 ?>

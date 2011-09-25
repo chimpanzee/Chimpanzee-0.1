@@ -5,28 +5,56 @@ class CZCtrl extends CZFunc
 	/*
 	 * #Forward
 	 */
-	
+
 	/**
-	 * @param string $action_name
-	 * @param string $action_group_name
-	 * @param string $ctrl_name
+	 * @param array $action(
+	 *   string Action name
+	 *   string Action group name <option>
+	 *   string Controller name   <option>
+	 * )
+	 * @param array $params(
+	 *   'routing' => array(
+	 *     string Parameter value
+	 *     ...
+	 *   ) <option>
+	 *   'get' => array(
+	 *     string Parameter name => string Parameter value
+	 *     ...
+	 *   ) <option>
+	 * ) <option>
+	 * 
+	 * @return exit
 	 * 
 	 * @author Shin Uesugi
 	 */
-	protected function _forward($action_name, $action_group_name = '', $ctrl_name = '')
+	protected function _forward($action, $params = NULL)
 	{
-		$this->_cz->loadStatic('forward')->_exec($action_name, $action_group_name, $ctrl_name);
+		$this->_cz->loadStatic('forward')->_exec($action, $params);
 	}
 	
 	/**
-	 * @param string $action_name
-	 * @param string $ctrl_name
+	 * @param array $action(
+	 *   string Action name
+	 *   string Controller name <option>
+	 * )
+	 * @param array $params(
+	 *   'routing' => array(
+	 *     string Parameter value
+	 *     ...
+	 *   ) <option>
+	 *   'get' => array(
+	 *     string Parameter name => string Parameter value
+	 *     ...
+	 *   ) <option>
+	 * ) <option>
+	 * 
+	 * @return exit
 	 * 
 	 * @author Shin Uesugi
 	 */
-	protected function forward($action_name, $ctrl_name = '')
+	protected function forward($action, $params = NULL)
 	{
-		$this->_cz->loadStatic('forward')->exec($action_name, $ctrl_name);
+		$this->_cz->loadStatic('forward')->exec($action, $params);
 	}
 	
 	/**
@@ -51,37 +79,83 @@ class CZCtrl extends CZFunc
 	 */
 	
 	/**
-	 * @param string $action_name
-	 * @param string $action_group_name
-	 * @param string $ctrl_name
+	 * @param array $action(
+	 *   string Action name
+	 *   string Action group name <option>
+	 *   string Controller name   <option>
+	 * )
+	 * @param boolean $secure_flag <option>
+	 * @param array   $params(
+	 *   'routing' => array(
+	 *     string Parameter value
+	 *     ...
+	 *   ) <option>
+	 *   'get' => array(
+	 *     string Parameter name => string Parameter value
+	 *     ...
+	 *   ) <option>
+	 * ) <option>
+	 * 
+	 * @return exit
 	 * 
 	 * @author Shin Uesugi
 	 */
-	protected function _redirect($action_name, $action_group_name = '', $ctrl_name = '')
+	protected function _redirect($action, $secure_flag = FALSE, $params = NULL)
 	{
-		$this->_cz->newCore('redirect', 'action')->_exec($action_name, $action_group_name, $ctrl_name);
+		$this->_cz->newCore('redirect', 'action')->_exec($action, $secure_flag, $params);
 	}
 	
 	/**
-	 * @param string $action_name
-	 * @param string $ctrl_name
+	 * @param array $action(
+	 *   string Action name
+	 *   string Controller name <option>
+	 * )
+	 * @param boolean $secure_flag <option>
+	 * @param array   $params(
+	 *   'routing' => array(
+	 *     string Parameter value
+	 *     ...
+	 *   ) <option>
+	 *   'get' => array(
+	 *     string Parameter name => string Parameter value
+	 *     ...
+	 *   ) <option>
+	 * ) <option>
+	 * 
+	 * @return exit
 	 * 
 	 * @author Shin Uesugi
 	 */
-	protected function redirect($action_name, $ctrl_name = '')
+	protected function redirect($action, $secure_flag = FALSE, $params = NULL)
 	{
-		$this->_cz->newCore('redirect', 'action')->exec($action_name, $ctrl_name);
+		$this->_cz->newCore('redirect', 'action')->exec($action, $secure_flag, $params);
 	}
 	
 	/**
+	 * @param boolean secure_flag <option>
+	 * @param array   $params(
+	 *   'routing' => array(
+	 *     string Parameter value
+	 *     ...
+	 *   ) <option>
+	 *   'get' => array(
+	 *     string Parameter name => string Parameter value
+	 *     ...
+	 *   ) <option>
+	 * ) <option>
+	 * 
+	 * @return exit
+	 * 
 	 * @author Shin Uesugi
 	 */
-	protected function redirectRoot()
+	protected function redirectRoot($secure_flag = FALSE, $params = NULL)
 	{
-		$this->_cz->newCore('redirect', 'root')->exec();
+		$this->_cz->newCore('redirect', 'root')->exec($secure_flag, $params);
 	}
 	
 	/**
+	 * @return exit
+	 * 
 	 * @author Shin Uesugi
 	 */
 	protected function redirectReturn()
@@ -92,6 +166,8 @@ class CZCtrl extends CZFunc
 	/**
 	 * @param string $url
 	 * 
+	 * @return exit
+	 * 
 	 * @author Shin Uesugi
 	 */
 	protected function redirect301($url)
@@ -101,6 +177,8 @@ class CZCtrl extends CZFunc
 	
 	/**
 	 * @param string $url
+	 * 
+	 * @return exit
 	 * 
 	 * @author Shin Uesugi
 	 */

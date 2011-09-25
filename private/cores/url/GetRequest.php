@@ -2,7 +2,7 @@
 final class CZCurlGetRequest extends CZBase
 {
 	/**
-	 * @return string
+	 * @return string URL
 	 * 
 	 * @author Shin Uesugi
 	 */

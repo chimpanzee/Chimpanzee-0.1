@@ -2,27 +2,61 @@
 final class CZCredirectAction extends CZBase
 {
 	/**
-	 * @param string $action_name
-	 * @param string $action_group_name / FALSE (Set FALSE by self::exec)
-	 * @param string $ctrl_name
+	 * @param array $action(
+	 *   string Action name
+	 *   string Action group name / FALSE <option>
+	 *   string Controller name           <option>
+	 * )
+	 * @param boolean $secure_flag <option>
+	 * @param array $params(
+	 *   'routing' => array(
+	 *     string Parameter value
+	 *     ...
+	 *   ) <option>
+	 *   'get' => array(
+	 *     string Parameter name => string Parameter value
+	 *     ...
+	 *   ) <option>
+	 * ) <option>
+	 * 
+	 * @return exit
 	 * 
 	 * @author Shin Uesugi
 	 */
-	public function _exec($action_name, $action_group_name = '', $ctrl_name = '')
+	public function _exec($action, $secure_flag = FALSE, $params = NULL)
 	{
-		$url = $this->_cz->newCore('url', 'get_action')->_exec($action_name, $action_group_name, $ctrl_name);
+		$url = $this->_cz->newCore('url', 'get_action')->_exec($action, $secure_flag, $params);
 		$this->_cz->newCore('redirect', 'url')->exec($url);
 	}
 	
 	/**
-	 * @param string $action_name
-	 * @param string $ctrl_name
+	 * @param array $action(
+	 *   string Action name
+	 *   string Controller name <option>
+	 * )
+	 * @param boolean $secure_flag <option>
+	 * @param array $params(
+	 *   'routing' => array(
+	 *     string Parameter value
+	 *     ...
+	 *   ) <option>
+	 *   'get' => array(
+	 *     string Parameter name => string Parameter value
+	 *     ...
+	 *   ) <option>
+	 * ) <option>
+	 * 
+	 * @return exit
 	 * 
 	 * @author Shin Uesugi
 	 */
-	public function exec($action_name, $ctrl_name = '')
+	public function exec($action, $secure_flag = FALSE, $params = NULL)
 	{
-		return self::_exec($action_name, FALSE, $ctrl_name);
+		if (isset($action[1])) {
+			$action[2] = $action[1];
+		}
+		$action[1] = FALSE;
+		self::_exec($action, $secure_flag, $params);
 	}
 }
 ?>

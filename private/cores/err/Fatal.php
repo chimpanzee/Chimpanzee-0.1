@@ -1,4 +1,7 @@
 <?php
+// Common
+define('CZ_FATAL_COMMON_NOT_EXIST_ACTION_NAME', 0x0101);
+
 // Err
 define('CZ_FATAL_ERR_NOT_SAVED_MSG', 0x0201);
 
@@ -119,6 +122,9 @@ final class CZCerrFatal extends CZBase
 	 * @author Takamichi Yanai
 	 */
 	private $_msgs = array(
+		// Common
+		CZ_FATAL_COMMON_NOT_EXIST_ACTION_NAME => 'Action name is missing.',
+		
 		// Err
 		CZ_FATAL_ERR_NOT_SAVED_MSG => 'The error message is not saved.',
 		

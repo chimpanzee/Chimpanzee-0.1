@@ -10,18 +10,6 @@ final class configDb extends CZConfig
 					'user' => 'main_user',
 					'pass' => 'main_pass',
 				),
-				'sub' => array(
-					array(
-						'dsn'  => 'mysql:dbname=sub_dbname1;host=localhost',
-						'user' => 'sub_user1',
-						'pass' => 'sub_pass1',
-					),
-					array(
-						'dsn'  => 'mysql:dbname=sub_dbname2;host=localhost',
-						'user' => 'sub_user2',
-						'pass' => 'sub_pass2',
-					),
-				),
 			),
 			
 			'persistent_flag' => TRUE,

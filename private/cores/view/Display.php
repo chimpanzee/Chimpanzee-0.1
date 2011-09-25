@@ -30,7 +30,7 @@ final class CZCviewDisplay extends CZBase
 		$_return_url       = $this->_cz->newCore('url', 'get_return')->exec();
 		$_images_url       = $this->_cz->newCore('url', 'get_images')->exec();
 		$_css_url          = $this->_cz->newCore('url', 'get_css')->exec();
-		$_js_url           = $this->_cz->newCore('url', 'get_JS')->exec();
+		$_js_url           = $this->_cz->newCore('url', 'get_js')->exec();
 		$_api_url          = $this->_cz->newCore('url', 'get_api')->exec();
 		$_image_server_url = $this->_cz->newCore('image', 'get_server_url')->exec();
 		
@@ -47,30 +47,36 @@ final class CZCviewDisplay extends CZBase
 	 */
 	
 	/**
-	 * @param string $action_name
-	 * @param string $action_group_name
-	 * @param string $ctrl_name
+	 * @param array $action(
+	 *   string Action name
+	 *   string Action group name / FALSE <option>
+	 *   string Controller name           <option>
+	 * )
+	 * @param boolean $secure_flag <option>
 	 * 
-	 * @return string
+	 * @return string URL
 	 * 
 	 * @author Shin Uesugi
 	 */
-	private function _url($action_name, $action_group_name = '', $ctrl_name = '')
+	private function _url($action, $secure_flag = FALSE)
 	{
-		return $this->_cz->newCore('url', 'get_action')->_exec($action_name, $action_group_name, $ctrl_name);
+		return $this->_cz->newCore('url', 'get_action')->_exec($action, $secure_flag);
 	}
 	
 	/**
-	 * @param string $action_name
-	 * @param string $ctrl_name
+	 * @param array $action(
+	 *   string Action name
+	 *   string Controller name <option>
+	 * )
+	 * @param boolean $secure_flag <option>
 	 * 
-	 * @return string
+	 * @return string URL
 	 * 
 	 * @author Shin Uesugi
 	 */
-	private function url($action_name, $ctrl_name = '')
+	private function url($action, $secure_flag = FALSE)
 	{
-		return $this->_cz->newCore('url', 'get_action')->exec($action_name, $ctrl_name);
+		return $this->_cz->newCore('url', 'get_action')->exec($action, $secure_flag);
 	}
 	
 	/**

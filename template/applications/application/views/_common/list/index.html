@@ -1,4 +1,4 @@
-<a href="<?= $this->_url('index', 'regist'); ?>">New registration</a><br />
+<a href="<?= $this->_url(array('index', 'regist')); ?>">New registration</a><br />
 <?= $records->getListHtml(); ?>
 <? $_prev_page_url = $records->getPrevPageUrl(); ?>
 <? $_next_page_url = $records->getNextPageUrl(); ?>

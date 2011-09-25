@@ -9,11 +9,13 @@ final class CZCroutingGetParts extends CZBase
 	private function _getUrlParts()
 	{
 		$parts = array();
-		$url = $this->_cz->newCore('url', 'get_root')->exec();
-		$src_parts = explode('/', str_replace($url, '', $_SERVER['REQUEST_URI']));
-		foreach ($src_parts as $src_part) {
-			if ($src_part !== '') {
-				$parts[] = $src_part;
+		
+		$url_path = $this->_cz->newCore('url', 'get_path')->exec();
+		
+		$src_parts = explode('/', str_replace($url_path, '', $_SERVER['REQUEST_URI']));
+		foreach ($src_parts as $part) {
+			if ($part !== '') {
+				$parts[] = $part;
 			}
 		}
 		

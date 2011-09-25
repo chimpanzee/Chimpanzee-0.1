@@ -53,8 +53,9 @@ final class CZCurlSetReturn extends CZBase
 			return FALSE;
 		}
 		
+		$cg_key = $this->_cz->newCore('url', 'get_CG_key')->exec();
+		
 		$return_urls = $this->_cz->newCore('ses', 'get')->exec('return_urls', array());
-		$cg_key      = $this->_cz->newCore('url', 'get_CG_key')->exec();
 		$return_urls[$cg_key] = $referer;
 		$this->_cz->newCore('ses', 'set')->exec('return_urls', $return_urls);
 		

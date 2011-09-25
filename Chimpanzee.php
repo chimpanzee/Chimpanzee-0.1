@@ -67,9 +67,9 @@ final class Chimpanzee
 			$ctrl_name = $default_ctrl_name;
 		}
 		if ($this->_cz->isValidStr($routing_parts['action_group_name'])) {
-			$this->_cz->loadStatic('forward')->_exec($routing_parts['action_name'], $routing_parts['action_group_name'], $ctrl_name);
+			$this->_cz->loadStatic('forward')->_exec(array($routing_parts['action_name'], $routing_parts['action_group_name'], $ctrl_name));
 		} else {
-			$this->_cz->loadStatic('forward')->exec($routing_parts['action_name'], $ctrl_name);
+			$this->_cz->loadStatic('forward')->exec(array($routing_parts['action_name'], $ctrl_name));
 		}
 	}
 }

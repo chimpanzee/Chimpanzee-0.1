@@ -4,26 +4,39 @@ final class CZSForward extends CZBase
 	// Object
 	private $_ctrl = NULL;
 	
-	private $_ctrl_name         = '';
-	private $_action_group_name = '';
-	private $_action_name       = '';
+	private $_ctrl_name         = NULL;
+	private $_action_group_name = NULL;
+	private $_action_name       = NULL;
 	
-	private $_prev_ctrl_name         = '';
-	private $_prev_action_group_name = '';
-	private $_prev_action_name       = '';
+	private $_prev_ctrl_name         = NULL;
+	private $_prev_action_group_name = NULL;
+	private $_prev_action_name       = NULL;
 	
 
 	/**
-	 * @param string $action_name
-	 * @param string $action_group_name / NULL
-	 * @param string $ctrl_name
+	 * @param array $action(
+	 *   string Action name
+	 *   string Action group name / FALSE <option>
+	 *   string Controller name           <option>
+	 * )
+	 * @param array $params(
+	 *   'routing' => array(
+	 *     string Parameter value
+	 *     ...
+	 *   ) <option>
+	 *   'get' => array(
+	 *     string Parameter name => string Parameter value
+	 *     ...
+	 *   ) <option>
+	 * ) <option>
+	 * 
+	 * @return exit
 	 * 
 	 * @author Shin Uesugi
 	 */
-	public function _exec($action_name, $action_group_name = '', $ctrl_name = '')
+	public function _exec($action, $params = NULL)
 	{
-		$routing_params = $this->_cz->newCore('routing', 'get_params')->exec();
-		list($this->_ctrl, $method_name) = $this->_cz->newCore('forward', '_forward')->exec($action_name, $action_group_name, $ctrl_name, $routing_params);
+		list($this->_ctrl, $method_name, $routing_params) = $this->_cz->newCore('forward', '_forward')->exec($action, $params);
 		if (call_user_func_array(array($this->_ctrl, $method_name), $routing_params) === NULL) {
 			$this->_cz->newCore('view', 'display')->exec();
 		}
@@ -31,14 +44,32 @@ final class CZSForward extends CZBase
 	}
 	
 	/**
-	 * @param string $action_name
-	 * @param string $ctrl_name
+	 * @param array $action(
+	 *   string Action name
+	 *   string Controller name <option>
+	 * )
+	 * @param array $params(
+	 *   'routing' => array(
+	 *     string Parameter value
+	 *     ...
+	 *   ) <option>
+	 *   'get' => array(
+	 *     string Parameter name => string Parameter value
+	 *     ...
+	 *   ) <option>
+	 * ) <option>
+	 * 
+	 * @return exit
 	 * 
 	 * @author Shin Uesugi
 	 */
-	public function exec($action_name, $ctrl_name = '')
+	public function exec($action, $params = NULL)
 	{
-		self::_exec($action_name, NULL, $ctrl_name);
+		if (isset($action[1])) {
+			$action[2] = $action[1];
+		}
+		$action[1] = FALSE;
+		self::_exec($action, $params);
 	}
 	
 	

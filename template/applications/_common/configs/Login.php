@@ -8,6 +8,7 @@ final class configLogin extends CZConfig
 				'ctrl_name'         => 'login',
 				'action_group_name' => '',
 				'action_name'       => 'index',
+				'secure_flag'       => TRUE,
 			),
 		));
 	}
