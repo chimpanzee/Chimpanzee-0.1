@@ -12,7 +12,7 @@ final class CZCdbInsert extends CZBase
 	public function exec($table_name, $record)
 	{
 		$value = current($record);
-		if (is_array($value) && is_integer(key($value))) {
+		if (is_array($value) && is_integer(key($record))) {
 			$set_column_names = array_keys($value);
 		} else {
 			$set_column_names = array_keys($record);

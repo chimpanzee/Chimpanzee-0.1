@@ -11,7 +11,7 @@ final class CZCdbGetParamList extends CZBase
 	 */
 	private function _getValues($values, $num = NULL)
 	{
-		$add_num = $num !== NULL ? ':' . $num : '';
+		$add_num = $num !== NULL ? '__' . $num : '';
 		
 		$param_values = array();
 		foreach ($values as $param_name => $value) {
@@ -35,7 +35,7 @@ final class CZCdbGetParamList extends CZBase
 		}
 		
 		$value = current($values);
-		if (is_array($value) && is_integer(key($value))) {
+		if (is_array($value) && is_integer(key($values))) {
 			foreach ($values as $num => $value) {
 				$list[$num] = self::_getValues($value, $num);
 			}
