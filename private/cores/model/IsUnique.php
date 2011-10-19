@@ -42,16 +42,21 @@ final class CZCmodelIsUnique extends CZBase
 				if (isset($record[$column_name]) && !is_array($record[$column_name])) {
 					$condition_values[$column_name] = $record[$column_name];
 				} else if ($ignore_record) {
-					if (!isset($ignore_record[$column_name])) {
+					if (!array_key_exists($column_name, $ignore_record)) {
 						$this->_cz->newCore('err', 'fatal')->exec(__FILE__, __LINE__, CZ_FATAL_MODEL_NOT_EXIST_UNIQUE_COLUMN_NAME, $column_name, $model->getMainClassName());
 					}
 					$condition_values[$column_name] = $ignore_record[$column_name];
 				}
-				if (isset($condition_values[$column_name])) {
-					$condition_sentences[] = $column_name . '=:' . $column_name;
+				if (array_key_exists($column_name, $condition_values)) {
+					if ($condition_values[$column_name] !== NULL) {
+						$condition_sentences[] = $column_name . '=:' . $column_name;
+					} else {
+						$condition_sentences[] = $column_name . ' IS NULL';
+						unset($condition_values[$column_name]);
+					}
 				}
 			}
-			if ($condition_values) {
+			if ($condition_sentences) {
 				if ($this->_cz->newCore('model', 'get_value')->exec($model, 'COUNT(*)', $condition_sentences, $condition_values, $format_flag) > 0) {
 					$result = FALSE;
 					if (isset($unique_err_msgs[$unique_name])) {
