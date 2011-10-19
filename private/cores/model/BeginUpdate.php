@@ -60,6 +60,7 @@ final class CZCmodelBeginUpdate extends CZBase
 	public function exec($model, $id)
 	{
 		if (!($form_values = self::_getFormValues($model, $id))) {
+			$model->free('update_id');
 			return FALSE;
 		}
 		

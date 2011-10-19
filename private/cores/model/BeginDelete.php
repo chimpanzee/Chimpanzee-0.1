@@ -12,6 +12,7 @@ final class CZCmodelBeginDelete extends CZBase
 	public function exec($model, $id)
 	{
 		if (!($record = $this->_cz->newCore('model', 'get_record')->byId($model, $id))) {
+			$model->free('delete_id');
 			return FALSE;
 		}
 		

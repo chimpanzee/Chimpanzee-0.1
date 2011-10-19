@@ -368,6 +368,16 @@ class CZModel extends CZFunc
 	}
 	
 	/**
+	 * @return boolean
+	 * 
+	 * @author Shin Uesugi
+	 */
+	public function isBegunUpdate()
+	{
+		return $this->load('update_id', FALSE) !== FALSE;
+	}
+	
+	/**
 	 * @return string
 	 * 
 	 * @author Shin Uesugi
@@ -434,6 +444,16 @@ class CZModel extends CZFunc
 	public function beginDelete($id)
 	{
 		return $this->_cz->newCore('model', 'begin_delete')->exec($this, $id);
+	}
+	
+	/**
+	 * @return boolean
+	 * 
+	 * @author Shin Uesugi
+	 */
+	public function isBegunDelete()
+	{
+		return $this->load('delete_id', FALSE) !== FALSE;
 	}
 	
 	/**
