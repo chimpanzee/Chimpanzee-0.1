@@ -20,8 +20,12 @@ final class CZCurlGetRoot extends CZBase
 	 */
 	public function exec($secure_flag = FALSE, $params = NULL)
 	{
+		if (!($server_name = $this->_cz->newUser('config', 'url')->getValue('server_name', ''))) {
+			$server_name = isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : 'localhost';
+		}
+
 		$url  = $secure_flag ? 'https' : 'http';
-		$url .= '://' . $_SERVER['SERVER_NAME'];
+		$url .= '://' . $server_name;
 		$url .= $this->_cz->newCore('url', 'get_path')->exec();
 		if (isset($params['routing'])) {
 			foreach ($params['routing'] as $value) {

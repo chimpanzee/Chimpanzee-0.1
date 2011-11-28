@@ -73,6 +73,7 @@ define('CZ_FATAL_FORM_NOT_SET_PART_TABLE',       0x0a0b);
 define('CZ_FATAL_FORM_USE_PART_TYPE',            0x0a0c);
 define('CZ_FATAL_FORM_INVALID_FORM_TAG_ENCTYPE', 0x0a0d);
 define('CZ_FATAL_FORM_NOT_SAVED_VALUES',         0x0a0e);
+define('CZ_FATAL_FORM_SET_PART_PROPERTY',        0x0a0f);
 
 // View
 define('CZ_FATAL_VIEW_ADDED_VAR',      0x0b01);
@@ -196,6 +197,7 @@ final class CZCerrFatal extends CZBase
 		CZ_FATAL_FORM_USE_PART_TYPE            => 'Cannot use this part(input) type.',
 		CZ_FATAL_FORM_INVALID_FORM_TAG_ENCTYPE => 'Encryption type of uploaded file is invalid.',
 		CZ_FATAL_FORM_NOT_SAVED_VALUES         => 'No Values are saved.',
+		CZ_FATAL_FORM_SET_PART_PROPERTY        => 'This property element is already set.',
 		
 		// View
 		CZ_FATAL_VIEW_ADDED_VAR      => 'The variable is already added.',

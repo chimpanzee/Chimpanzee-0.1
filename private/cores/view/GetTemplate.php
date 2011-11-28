@@ -112,9 +112,11 @@ final class CZCviewGetTemplate extends CZBase
 		$template .= self::_getSub ('_footer5', $file_extension, $views_dir, $views_common_dir, $ctrl_name);
 		$template .= self::_getSub ('_footer',  $file_extension, $views_dir, $views_common_dir, $ctrl_name);
 
+		/*
 		if (!$this->_cz->develop_flag) {
 			$template = str_replace(array("\t", "\r", "\n"), '', $template);
 		}
+		*/
 		if ($this->_cz->newCore('mobile', 'is_mobile')->exec()) {
 			$template = mb_convert_kana($template, 'ask');
 		}

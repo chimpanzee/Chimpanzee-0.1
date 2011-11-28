@@ -260,6 +260,9 @@ final class Cz
 		}
 		
 		$this->tmp_dir = self::newUser('config', 'CZ')->getValue('tmp_dir', $this->project_dir . DIRECTORY_SEPARATOR . 'tmp');
+		if (!$this->tmp_dir) {
+			$this->tmp_dir = $this->project_dir . DIRECTORY_SEPARATOR . 'tmp';
+		}
 	}
 
 

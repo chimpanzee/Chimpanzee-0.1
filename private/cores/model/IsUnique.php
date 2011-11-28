@@ -61,7 +61,7 @@ final class CZCmodelIsUnique extends CZBase
 					$result = FALSE;
 					if (isset($unique_err_msgs[$unique_name])) {
 						foreach ($unique_err_msgs[$unique_name] as $form_part_name => $err_msg) {
-							$this->_cz->newCore('form', 'save_err')->exec($form_part_name, $err_msg);
+							$this->_cz->newCore('form', 'save_err')->exec($model->getBoundForm(), $form_part_name, $err_msg);
 						}
 					} else {
 						$this->_cz->newCore('form', 'save_err')->exec($unique_name, 'Please input another content.');

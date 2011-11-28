@@ -2,16 +2,17 @@
 final class CZCformGetConfirmDataArea extends CZBase
 {
 	/**
-	 * @param object $form
-	 * @param string $part_name
-	 * @param array  $part
-	 * @param array  $values
+	 * @param object  $form
+	 * @param string  $part_name
+	 * @param boolean $escape_flag
+	 * @param array   $part
+	 * @param array   $values
 	 * 
 	 * @return string / FALSE
 	 * 
 	 * @author Shin Uesugi
 	 */
-	private function _getData($form, $part_name, $part, $values)
+	private function _getData($form, $part_name, $escape_flag, $part, $values)
 	{
 		if (isset($part['confirm'])) {
 			return FALSE;
@@ -25,7 +26,7 @@ final class CZCformGetConfirmDataArea extends CZBase
 				if (isset($part['convert'])) {
 					$value = $this->_cz->newCore('filter', 'convert')->exec($part['convert'], $value, $values);
 				}
-				if ($part['type'] == 'textarea') {
+				if ($escape_flag) {
 					$data = $this->_cz->newCore('view', 'convert')->exec($value);
 				} else {
 					$data = $value;
@@ -53,18 +54,22 @@ final class CZCformGetConfirmDataArea extends CZBase
 				}
 				break;
 			case 'file':
-				if (isset($part['image_flag']) && $part['image_flag'] && $value) {
-					$image_server_url = $this->_cz->newCore('image', 'get_server_url')->exec();
-					$uploaded_files   = $form->load('uploaded_files');
-					$data  = '<img src="' . $image_server_url . '?dt=tmp';
-					$data .= '&fl=' . $uploaded_files[$part_name]['file'];
-					if (isset($part['image_max_width'])) {
-						$data .= '&mw=' . $part['image_max_width'];
+				if ($value) {
+					$uploaded_files = $form->load('uploaded_files');
+					if (isset($part['image_flag']) && $part['image_flag']) {
+						$image_server_url = $this->_cz->newCore('image', 'get_server_url')->exec();
+						$data  = '<img src="' . $image_server_url . '?dt=tmp';
+						$data .= '&fl=' . $uploaded_files[$part_name]['file'];
+						if (isset($part['image_max_width'])) {
+							$data .= '&mw=' . $part['image_max_width'];
+						}
+						if (isset($part['image_max_height'])) {
+							$data .= '&mh=' . $part['image_max_height'];
+						}
+						$data .= '" />';
+					} else {
+						$data = $uploaded_files[$part_name]['name'];
 					}
-					if (isset($part['image_max_height'])) {
-						$data .= '&mh=' . $part['image_max_height'];
-					}
-					$data .= '" />';
 				} else {
 					$data = FALSE;
 				}
@@ -77,16 +82,17 @@ final class CZCformGetConfirmDataArea extends CZBase
 	}
 
 	/**
-	 * @param object $form
-	 * @param string $part_name
-	 * @param array  $part
-	 * @param array  $values
+	 * @param object  $form
+	 * @param string  $part_name
+	 * @param boolean $escape_flag
+	 * @param array   $part
+	 * @param array   $values
 	 * 
 	 * @return string / FALSE (No display)
 	 * 
 	 * @author Shin Uesugi
 	 */
-	public function exec($form, $part_name, $part = array(), $values = array())
+	public function exec($form, $part_name, $escape_flag = TRUE, $part = array(), $values = array())
 	{
 		if (!$part) {
 			$part = $this->_cz->newCore('form', 'get_part')->exec($form, $part_name);
@@ -102,7 +108,7 @@ final class CZCformGetConfirmDataArea extends CZBase
 		$data_area = '';
 		if (isset($part['parts'])) {
 			foreach ($part['parts'] as $child_part_name => $child_part) {
-				if (($data = self::_getData($form, $child_part_name, $child_part, $values)) === FALSE) {
+				if (($data = self::_getData($form, $child_part_name, $escape_flag, $child_part, $values)) === FALSE) {
 					continue;
 				}
 				if (isset($part['separator']) && $data_area) {
@@ -111,7 +117,7 @@ final class CZCformGetConfirmDataArea extends CZBase
 				$data_area .= $this->_cz->newCore('form', 'get_data_area')->exec($form, $child_part, $data);
 			}
 		} else {
-			if (($data = self::_getData($form, $part_name, $part, $values)) === FALSE) {
+			if (($data = self::_getData($form, $part_name, $escape_flag, $part, $values)) === FALSE) {
 				return FALSE;
 			}
 			$data_area .= $this->_cz->newCore('form', 'get_data_area')->exec($form, $part, $data);

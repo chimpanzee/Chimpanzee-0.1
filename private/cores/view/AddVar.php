@@ -5,10 +5,11 @@ final class CZCviewAddVar extends CZBase
 	 * @param string  $var_name
 	 * @param mixed   $value
 	 * @param boolean $escape_flag
+	 * @param array   $ignore_escape_keys
 	 * 
 	 * @author Shin Uesugi
 	 */
-	public function exec($var_name, $value, $escape_flag = TRUE)
+	public function exec($var_name, $value, $escape_flag = TRUE, $ignore_escape_keys = array())
 	{
 		$vars = $this->_cz->loadStatic('view')->getVars();
 		if (isset($vars[$var_name])) {
@@ -16,7 +17,7 @@ final class CZCviewAddVar extends CZBase
 		}
 		
 		if (!is_object($value)) {
-			$value = $this->_cz->newCore('view', 'convert')->exec($value, $escape_flag);
+			$value = $this->_cz->newCore('view', 'convert')->exec($value, $escape_flag, $ignore_escape_keys);
 		}
 		$vars[$var_name] = $value;
 		$this->_cz->loadStatic('view')->setVars($vars);

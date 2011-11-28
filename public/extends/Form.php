@@ -40,6 +40,28 @@ class CZForm extends CZFunc
 		
 		return $this;
 	}
+
+	/**
+	 * @param string $part_name
+	 * @param string $property_name
+	 * @param mixed  $value
+	 * 
+	 * @return object
+	 * 
+	 * @author Shin Uesugi
+	 */
+	protected function addPartProperty($part_name, $property_name, $value)
+	{
+		if (!isset($this->_parts[$part_name])) {
+			$this->_cz->newCore('err', 'fatal')->exec(__FILE__, __LINE__, CZ_FATAL_FORM_NOT_SET_PART, $part_name, $this->getMainClassName());
+		}
+		if (isset($this->_parts[$part_name][$property_name])) {
+			$this->_cz->newCore('err', 'fatal')->exec(__FILE__, __LINE__, CZ_FATAL_FORM_SET_PART_PROPERTY, $part_name, $this->getMainClassName());
+		}
+		$this->_parts[$part_name][$property_name] = $value;
+		
+		return $this;
+	}
 	
 	
 	/*
@@ -131,7 +153,7 @@ class CZForm extends CZFunc
 	 */
 	public function saveErr($part_name, $msg)
 	{
-		$this->_cz->newCore('form', 'save_err')->exec($part_name, $msg);
+		$this->_cz->newCore('form', 'save_err')->exec($this, $part_name, $msg);
 	}
 	
 	
@@ -148,7 +170,7 @@ class CZForm extends CZFunc
 	 */
 	public function getEditTag($part_name)
 	{
-		return $this->_cz->newCore('form', 'get_confirm_data_area')->exec($this, $part_name);
+		return $this->_cz->newCore('form', 'get_edit_tag')->exec($this, $part_name);
 	}
 	
 	/**
@@ -191,25 +213,28 @@ class CZForm extends CZFunc
 	 */
 	
 	/**
-	 * @param string $part_name
+	 * @param string  $part_name
+	 * @param boolean $escape_flag
 	 * 
 	 * @return string / FALSE
 	 * 
 	 * @author Shin Uesugi
 	 */
-	public function getConfirmDataArea($part_name)
+	public function getConfirmDataArea($part_name, $escape_flag = TRUE)
 	{
-		return $this->_cz->newCore('form', 'get_confirm_data_area')->exec($this, $part_name);
+		return $this->_cz->newCore('form', 'get_confirm_data_area')->exec($this, $part_name, $escape_flag);
 	}
 	
 	/**
+	 * @param $escape_flag
+	 * 
 	 * @return string
 	 * 
 	 * @author Shin Uesugi
 	 */
-	public function getConfirmHtml()
+	public function getConfirmHtml($escape_flag = TRUE)
 	{
-		return $this->_cz->newCore('form', 'get_confirm_html')->exec($this);
+		return $this->_cz->newCore('form', 'get_confirm_html')->exec($this, $escape_flag);
 	}
 	
 	

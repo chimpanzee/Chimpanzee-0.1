@@ -2,6 +2,7 @@
 final class CZCformLoadErr extends CZBase
 {
 	/**
+	 * @param object $form
 	 * @param string $part_name
 	 * @param string $default_msg / FALSE
 	 * 
@@ -9,9 +10,9 @@ final class CZCformLoadErr extends CZBase
 	 * 
 	 * @author Shin Uesugi
 	 */
-	public function exec($part_name, $default_msg = '')
+	public function exec($form, $part_name, $default_msg = '')
 	{
-		$msgs = $this->_cz->newCore('ses', 'get')->exec('form_err_msgs', array());
+		$msgs = $form->load('err_msgs', array());
 		if (isset($msgs[$part_name])) {
 			$msg = $msgs[$part_name];
 		} else {

@@ -54,6 +54,10 @@ final class CZCforwardCheckPrevActions extends CZBase
 		}
 		
 		if (!$hit_flag) {
+			$this->_cz->newCore('ses', 'free')->exec('prev_ctrl_name');
+			$this->_cz->newCore('ses', 'free')->exec('prev_action_group_name');
+			$this->_cz->newCore('ses', 'free')->exec('prev_action_name');
+
 			$this->_cz->newCore('forward', '403')->exec();
 		}
 	}

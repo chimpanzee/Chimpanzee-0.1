@@ -4,16 +4,22 @@ final class CZCviewConvert extends CZBase
 	/**
 	 * @param mixed   $value
 	 * @param boolean $escape_flag
+	 * @param array   $ignore_escape_keys
+	 * @param boolean $mobile_flag
 	 * 
 	 * @return mixed
 	 * 
 	 * @author Shin Uesugi
 	 */
-	private function _exec($value, $escape_flag, $mobile_flag)
+	private function _exec($value, $escape_flag, $ignore_escape_keys, $mobile_flag)
 	{
 		if (is_array($value)) {
 			foreach ($value as $key => $val) {
-				$value[$key] = self::exec($val, $escape_flag);
+				if ($escape_flag && !in_array($key, $ignore_escape_keys)) {
+					$value[$key] = self::_exec($val, TRUE, $ignore_escape_keys, $mobile_flag);
+				} else {
+					$value[$key] = self::_exec($val, FALSE, $ignore_escape_keys, $mobile_flag);
+				}
 			}
 		} else if (is_string($value)) {
 			if ($escape_flag) {
@@ -31,16 +37,17 @@ final class CZCviewConvert extends CZBase
 	/**
 	 * @param mixed   $value
 	 * @param boolean $escape_flag
+	 * @param array   $ignore_escape_keys
 	 * 
 	 * @return mixed
 	 * 
 	 * @author Shin Uesugi
 	 */
-	public function exec($value, $escape_flag = TRUE)
+	public function exec($value, $escape_flag = TRUE, $ignore_escape_keys = array())
 	{
 		$mobile_flag = $this->_cz->newCore('mobile', 'is_mobile')->exec();
 		
-		return self::_exec($value, $escape_flag, $mobile_flag);
+		return self::_exec($value, $escape_flag, $ignore_escape_keys, $mobile_flag);
 	}
 }
 ?>

@@ -4,6 +4,9 @@ final class configUrl extends CZConfig
 	public function _construct()
 	{
 		$this->setValues(array(
+			'server_name' => '',
+			'path'        => '',
+
 			'images' => '',
 			'css'    => '',
 			'js'     => '',

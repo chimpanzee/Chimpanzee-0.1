@@ -2,14 +2,16 @@
 final class CZCformIsErr extends CZBase
 {
 	/**
+	 * @param object $form
+	 * 
 	 * @return boolean
 	 * 
 	 * @author Shin Uesugi
 	 */
-	public function exec()
+	public function exec($form)
 	{
-		$err_msgs = $this->_cz->newCore('ses', 'get')->exec('form_err_msgs', array());
-
+		$err_msgs = $form->load('err_msgs', array());
+		
 		return count($err_msgs) > 0;
 	}
 }

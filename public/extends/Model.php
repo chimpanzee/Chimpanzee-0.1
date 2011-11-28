@@ -4,7 +4,8 @@ class CZModel extends CZFunc
 {
 	// Object
 	private $_model_records = array();
-
+	private $_form          = NULL;
+	
 	private $_table_name               = '';
 	private $_id_column_name           = '';
 	private $_mask_condition_sentences = array();
@@ -152,7 +153,21 @@ class CZModel extends CZFunc
 		
 		return $this;
 	}
-
+	
+	/**
+	 * @param object $form
+	 * 
+	 * @return object
+	 *        
+	 * @author Shin Uesugi
+	 */
+	public function bindForm($form)
+	{
+		$this->_form = $form;
+		
+		return $this;
+	}
+	
 
 	/*
 	 * #Get property
@@ -274,6 +289,16 @@ class CZModel extends CZFunc
 	public function getFormUniqueErrMsgs()
 	{
 		return $this->_form_unique_err_msgs;
+	}
+	
+	/**
+	 * @return object
+	 * 
+	 * @author Shin Uesugi
+	 */
+	public function getBoundForm()
+	{
+		return $this->_form;
 	}
 	
 	

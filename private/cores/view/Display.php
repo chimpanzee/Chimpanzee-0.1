@@ -23,7 +23,9 @@ final class CZCviewDisplay extends CZBase
 		$_action_group_name = $this->_cz->newCore('forward', 'get_action_group_name')->exec();
 		$_action_name       = $this->_cz->newCore('forward', 'get_action_name')->exec();
 		
-		$_views_dir = $this->_cz->application_dir . DIRECTORY_SEPARATOR . 'views';
+		if (!($_views_dir = $this->_cz->newUser('config', 'view')->getValue('views_dir', FALSE))) {
+			$_views_dir = $this->_cz->application_dir . DIRECTORY_SEPARATOR . 'views';
+		}
 		
 		$_root_url         = $this->_cz->newCore('url', 'get_root')->exec();
 		$_self_url         = $this->_cz->newCore('url', 'get_self')->exec();

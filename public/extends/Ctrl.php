@@ -189,6 +189,41 @@ class CZCtrl extends CZFunc
 	
 	
 	/*
+	 * #Get previous
+	 */
+	
+	/**
+	 * @return string / NULL
+	 * 
+	 * @author Shin Uesugi
+	 */
+	protected function getPrevCtrlName()
+	{
+		return $this->_cz->loadStatic('forward')->getPrevCtrlName();
+	}
+	
+	/**
+	 * @return string / NULL
+	 * 
+	 * @author Shin Uesugi
+	 */
+	protected function getPrevActionGroupName()
+	{
+		return $this->_cz->loadStatic('forward')->getPrevActionGroupName();
+	}
+	
+	/**
+	 * @return string / NULL
+	 * 
+	 * @author Shin Uesugi
+	 */
+	protected function getPrevActionName()
+	{
+		return $this->_cz->loadStatic('forward')->getPrevActionName();
+	}
+	
+	
+	/*
 	 * #Check previous action
 	 */
 	
@@ -221,12 +256,13 @@ class CZCtrl extends CZFunc
 	 * @param string  $var_name
 	 * @param mixed   $value
 	 * @param boolean $escape_flag
+	 * @param array   $ignore_escape_keys
 	 * 
 	 * @author Shin Uesugi
 	 */
-	protected function addViewVar($var_name, $value, $escape_flag = TRUE)
+	protected function addViewVar($var_name, $value, $escape_flag = TRUE, $ignore_escape_keys = array())
 	{
-		$this->_cz->newCore('view', 'add_var')->exec($var_name, $value, $escape_flag);
+		$this->_cz->newCore('view', 'add_var')->exec($var_name, $value, $escape_flag, $ignore_escape_keys);
 	}
 	
 	/**
